@@ -1,96 +1,534 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The House of Cyber</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff69b4, #8a2be2);
-      color: white;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The House of Cyber</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .banner {
-      background-image: url('https://www.transparenttextures.com/patterns/leopard.png');
-      background-size: 80px 80px;
-      opacity: 0.15;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 0;
-    }
+        :root {
+            --cyber-pink: #ff1493;
+            --neon-pink: #ff69b4;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(255, 20, 147, 0.1);
+            --text-light: #ffffff;
+            --text-gray: #cccccc;
+            --accent: #00ffff;
+        }
 
-    h1 {
-      font-size: 3.5rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      z-index: 1;
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+        body {
+            font-family: 'JetBrains Mono', 'Code Pro', monospace;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    p {
-      font-size: 1.3rem;
-      margin: 8px 0;
-      z-index: 1;
-      position: relative;
-    }
+        /* Cheetah print background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, transparent 20%, rgba(255, 20, 147, 0.1) 21%, rgba(255, 20, 147, 0.1) 30%, transparent 31%),
+                radial-gradient(circle at 40% 40%, transparent 20%, rgba(255, 105, 180, 0.05) 21%, rgba(255, 105, 180, 0.05) 30%, transparent 31%),
+                radial-gradient(circle at 90% 40%, transparent 20%, rgba(255, 20, 147, 0.08) 21%, rgba(255, 20, 147, 0.08) 30%, transparent 31%),
+                radial-gradient(circle at 30% 80%, transparent 20%, rgba(255, 105, 180, 0.06) 21%, rgba(255, 105, 180, 0.06) 30%, transparent 31%),
+                radial-gradient(circle at 80% 80%, transparent 20%, rgba(255, 20, 147, 0.07) 21%, rgba(255, 20, 147, 0.07) 30%, transparent 31%),
+                radial-gradient(circle at 60% 20%, transparent 20%, rgba(255, 105, 180, 0.05) 21%, rgba(255, 105, 180, 0.05) 30%, transparent 31%);
+            background-size: 200px 200px, 150px 150px, 300px 300px, 180px 180px, 250px 250px, 160px 160px;
+            z-index: -1;
+            opacity: 0.3;
+        }
 
-    .hashtags {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      font-style: italic;
-    }
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--cyber-pink);
+        }
 
-    .socials {
-      margin-top: 25px;
-      z-index: 1;
-      position: relative;
-    }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-    .socials a {
-      text-decoration: none;
-      background-color: white;
-      color: #8a2be2;
-      margin: 0 10px;
-      padding: 10px 18px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyber-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
 
-    .socials a:hover {
-      background-color: #ff69b4;
-      color: white;
-      transform: scale(1.05);
-    }
-  </style>
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyber-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyber-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--cyber-pink), var(--neon-pink), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--card-bg);
+            border: 2px solid var(--cyber-pink);
+            border-radius: 50%;
+            color: var(--cyber-pink);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--cyber-pink);
+            color: var(--dark-bg);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 20, 147, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--cyber-pink);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cyber-pink), transparent);
+        }
+
+        /* Journey Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border: 1px solid var(--cyber-pink);
+            border-radius: 10px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 20, 147, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .gallery-item:hover::before {
+            left: 100%;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 20, 147, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-item h3 {
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--card-bg);
+            border: 2px dashed var(--cyber-pink);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: var(--neon-pink);
+            background: rgba(255, 20, 147, 0.15);
+        }
+
+        .upload-btn {
+            background: linear-gradient(45deg, var(--cyber-pink), var(--neon-pink));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--cyber-pink);
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes glow {
+            from { text-shadow: 0 0 20px var(--cyber-pink); }
+            to { text-shadow: 0 0 30px var(--neon-pink), 0 0 40px var(--cyber-pink); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .social-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyber-pink);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-pink);
+        }
+    </style>
 </head>
 <body>
-  <div class="banner"></div>
-  <h1>The House of Cyber</h1>
-  <p>Where Fashion Meets Cybersecurity ✨</p>
-  <p class="hashtags">#HackerInHeels | #CyberWithStyle</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">🐆 THE HOUSE OF CYBER</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#journey">Journey</a></li>
+                <li><a href="#contact">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <div class="socials">
-    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
-    <a href="https://instagram.com" target="_blank">Instagram</a>
-    <a href="https://substack.com" target="_blank">Substack</a>
-  </div>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>THE HOUSE OF CYBER</h1>
+            <p>Where cybersecurity meets fierce style. Follow my journey through the digital realm, one pink pixel at a time.</p>
+            
+            <div class="social-links">
+                <a href="https://linkedin.com/in/your-profile" class="social-link" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://instagram.com/your-profile" class="social-link" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/your-channel" class="social-link" target="_blank" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <h2 class="section-title">About The House</h2>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <p style="font-size: 1.1rem; color: var(--text-gray); margin-bottom: 2rem;">
+                Welcome to The House of Cyber - where fierce meets secure. I'm on a mission to break stereotypes in cybersecurity while building an empire of digital protection. This space documents my journey, shares knowledge, and proves that cybersecurity can be both powerful and stylish.
+            </p>
+            <p style="color: var(--cyber-pink); font-weight: 500;">
+                🛡️ Cybersecurity Enthusiast | 💻 Code Warrior | 🐆 Unapologetically Fierce
+            </p>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="section" id="journey">
+        <h2 class="section-title">My Cyber Journey</h2>
+        
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h3 style="color: var(--neon-pink); margin-bottom: 1rem;">Share Your Journey</h3>
+            <p style="color: var(--text-gray); margin-bottom: 1rem;">Upload images of your cybersecurity learning milestones</p>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" multiple>
+            <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">
+                <i class="fas fa-upload"></i> Upload Images
+            </button>
+            <button class="upload-btn" onclick="addSampleImages()">
+                <i class="fas fa-plus"></i> Add Sample Journey
+            </button>
+        </div>
+
+        <!-- Gallery -->
+        <div class="gallery" id="imageGallery">
+            <!-- Sample journey items -->
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ff1493'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='16'%3EFirst CTF Win!%3C/text%3E%3C/svg%3E" alt="First CTF Win">
+                <h3>First CTF Victory 🏆</h3>
+                <p>Conquered my first Capture The Flag competition. The rush of solving that final cryptography challenge was incredible!</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ff69b4'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='14'%3ESecurity+ Certified%3C/text%3E%3C/svg%3E" alt="Security+ Certification">
+                <h3>Security+ Certified ✅</h3>
+                <p>Official CompTIA Security+ certification earned! This foundational cert opened so many doors in my cyber journey.</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2300ffff'/%3E%3Ctext x='150' y='90' text-anchor='middle' dy='.3em' fill='%23000' font-family='monospace' font-size='12'%3EPython for Security%3C/text%3E%3Ctext x='150' y='110' text-anchor='middle' dy='.3em' fill='%23000' font-family='monospace' font-size='12'%3EAutomation%3C/text%3E%3C/svg%3E" alt="Python Security Scripts">
+                <h3>Python Security Scripts 🐍</h3>
+                <p>Built my first automated security tools in Python. From port scanners to log analyzers - code is power!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="section">
+            <h3 style="color: var(--cyber-pink); margin-bottom: 1rem;">Connect with The House of Cyber</h3>
+            <div class="social-links">
+                <a href="https://linkedin.com/in/your-profile" class="social-link" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://instagram.com/your-profile" class="social-link" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/your-channel" class="social-link" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+            <p style="color: var(--text-gray); margin-top: 2rem;">
+                © 2024 The House of Cyber. Built with 💻 and lots of ☕
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Image upload functionality
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const gallery = document.getElementById('imageGallery');
+            
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        addImageToGallery(e.target.result, file.name, 'Uploaded from my cyber journey');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        function addImageToGallery(imageSrc, title, description) {
+            const gallery = document.getElementById('imageGallery');
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            galleryItem.innerHTML = `
+                <img src="${imageSrc}" alt="${title}">
+                <h3>${title}</h3>
+                <p>${description}</p>
+            `;
+            gallery.appendChild(galleryItem);
+        }
+
+        function addSampleImages() {
+            const sampleImages = [
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ff1493'/%3E%3Ctext x='150' y='80' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='14'%3EHome Lab Setup%3C/text%3E%3Ctext x='150' y='120' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='12'%3E🔬 Cyber Range%3C/text%3E%3C/svg%3E",
+                    title: "Home Lab Setup 🔬",
+                    description: "Built my first home cybersecurity lab with VMs, network tools, and monitoring systems."
+                },
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ff69b4'/%3E%3Ctext x='150' y='80' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='14'%3EWireshark Master%3C/text%3E%3Ctext x='150' y='120' text-anchor='middle' dy='.3em' fill='white' font-family='monospace' font-size='12'%3E📊 Packet Analysis%3C/text%3E%3C/svg%3E",
+                    title: "Wireshark Mastery 📊",
+                    description: "Deep dive into network packet analysis. Found my first malicious traffic pattern!"
+                },
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2300ffff'/%3E%3Ctext x='150' y='80' text-anchor='middle' dy='.3em' fill='%23000' font-family='monospace' font-size='14'%3ELinux Command Line%3C/text%3E%3Ctext x='150' y='120' text-anchor='middle' dy='.3em' fill='%23000' font-family='monospace' font-size='12'%3E💻 Terminal Ninja%3C/text%3E%3C/svg%3E",
+                    title: "Linux Terminal Ninja 💻",
+                    description: "Mastered the command line - from basic navigation to advanced system administration and security tools."
+                }
+            ];
+
+            sampleImages.forEach(img => {
+                addImageToGallery(img.src, img.title, img.description);
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add glow effect to social links on hover
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 0 20px var(--cyber-pink)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '';
+            });
+        });
+    </script>
 </body>
 </html>
